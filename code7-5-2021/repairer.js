@@ -3,7 +3,7 @@ var roleRepairer = {
     /** @param {Creep} creep **/
     run: function(creep) {
 
-        if (creep.memory.repairing && creep.carry.energy == 0) {
+        if (creep.carry.energy == 0) {
             creep.memory.repairing = false;
         }
         
@@ -12,21 +12,10 @@ var roleRepairer = {
         }
         
         if (creep.memory.repairing) {
-            var target = creep.pos.findClosestByRange(FIND_STRUCTURES);
-                if (target.hits < target.hitsMax) {
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {filter: (structure) => {return structure.structureType == STRUCTURE_CONTAINER && (structure.hits < structure.hitsMax)}});
                 if(creep.repair(target) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 }
-            }
-            
-            else {
-                var target_wall = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-                    filter: (structure) => { return structure.structureType == STRUCTURE_WALL; }});
-                    if(creep.repair(target_wall) == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target_wall);
-                    }
-                    
-            }
         }
         
         else {
