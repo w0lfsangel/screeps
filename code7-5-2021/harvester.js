@@ -10,7 +10,7 @@ var roleHarvester = {
         }
         else {
             var target_storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => { return structure.structureType == STRUCTURE_CONTAINER; }});
+            filter: (structure) => { return structure.structureType == STRUCTURE_CONTAINER && (structure.store.energy < structure.storeCapacity)}});
             if (creep.transfer(target_storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target_storage, {visualizePathStyle: {stroke: "#ffffff"}});
             }
