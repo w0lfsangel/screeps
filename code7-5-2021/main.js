@@ -36,7 +36,7 @@ module.exports.loop = function () {
     var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
     console.log('Harvesters: ' + harvesters.length);
 
-    if(harvesters.length < 3) {
+    if(harvesters.length < 4) {
         var newName = 'Harvester' + Game.time;
         console.log('Spawning new harvester: ' + newName);
         Game.spawns['Spawn1'].spawnCreep([WORK,CARRY,MOVE], newName,
@@ -54,7 +54,7 @@ module.exports.loop = function () {
     }
     
     var repairers = _.filter(Game.creeps, (creep) => creep.memory.role == 'repairer');
-    console.log('Repairer: ' + harvesters.length);
+    console.log('Repairer: ' + repairers.length);
 
     if(repairers.length < 1) {
         var newName = 'Repairer' + Game.time;
@@ -70,6 +70,10 @@ module.exports.loop = function () {
             Game.spawns['Spawn1'].pos.x + 1,
             Game.spawns['Spawn1'].pos.y,
             {align: 'left', opacity: 0.8});
+    }
+    
+    if(Game.cpu.bucket == 10000) {
+    Game.cpu.generatePixel();
     }
 
     for(var name in Game.creeps) {
