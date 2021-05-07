@@ -12,21 +12,28 @@ var roleRepairer = {
         }
         
         if (creep.memory.repairing) {
-            var target_storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => { return structure.structureType == STRUCTURE_CONTAINER; }});
-            
-            if (target_storage.hits < target_storage.hitsMax) {
-                if(creep.repair(target_storage) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target_storage);
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES);
+                if (target.hits < target.hitsMax) {
+                if(creep.repair(target) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
                 }
+            }
+            
+            else {
+                var target_wall = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                    filter: (structure) => { return structure.structureType == STRUCTURE_WALL; }});
+                    if(creep.repair(target_wall) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target_wall);
+                    }
+                    
             }
         }
         
         else {
             var target_storage = creep.pos.findClosestByRange(FIND_STRUCTURES, {
-            filter: (structure) => { return structure.structureType == STRUCTURE_CONTAINER; }});
-            if (creep.withdraw(target_storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(target_storage, {visualizePathStyle: {stroke: "#ffffff"}});
+                filter: (structure) => { return structure.structureType == STRUCTURE_CONTAINER; }});
+                if (creep.withdraw(target_storage, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target_storage, {visualizePathStyle: {stroke: "#ffffff"}});
             }
         }
     }
